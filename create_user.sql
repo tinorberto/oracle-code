@@ -24,3 +24,5 @@ GRANT select ON urbeL.tipo_localidade TO select_urber_v;
 
 GRANT select ON urbeL.VILA_FAVELA TO select_urber_v;
 
+--- revoke
+revoke select_urber_v from cleber
