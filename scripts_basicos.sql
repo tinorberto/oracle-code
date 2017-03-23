@@ -54,6 +54,8 @@ alter table ATIVOS_REDE.CABO drop column MODELO_CABO;
 ALTER TABLE GERMEM.CABO MODIFY (MANUTENCAO NOT NULL);
 ALTER TABLE GERMEM.CABO MODIFY (MANUTENCAO DEFAULT 'N');
 
+
+
 --4) Adiconar coluna, restricao e chave estrangeira
 alter table GERMEM.CABO add ID_CABO_PAI NUMBER(10) Null;
 
@@ -106,6 +108,8 @@ SELECT username,
   add constraint pk_t_quadra_ctm
   primary key (id_quadra_ctm);
 
+-- 14) Mudar tamanho da coluna 
+ALTER TABLE SIRGAS2000.SITUACAO_CONVERSAO MODIFY  INFO_COMPLEMENTAR VARCHAR2(4000);
   
 
 -- OUTROS
