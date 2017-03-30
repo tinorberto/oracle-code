@@ -170,8 +170,13 @@ begin
   DBMS_MVIEW.REFRESH('BHMAP_LAGOA');
 end;
  
- 
- 
+
+-- For
+FOR j IN (select OWNER, TRIGGER_NAME from SYS.ALL_TRIGGERS where table_name = i_nome_tabela AND TABLE_OWNER = i_esquema_tabela) 
+LOOP
+  
+END LOOP; 
+
  
  
  
