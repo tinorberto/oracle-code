@@ -3,7 +3,7 @@ declare
 
  req utl_http.req;
   res utl_http.resp;
-  url varchar2(4000) := 'http://admin:geoserver@10.0.57.85:8080/geoserver2/gwc/rest/seed';
+  url varchar2(4000) := 'http://admin:geoserver@10.0.57.85:8080/geoserver2/gwc/rest/seed/germem:CAIXA_PASSAGEM.json';
   name varchar2(4000);
   buffer varchar2(4000); 
   content varchar2(4000);
@@ -13,7 +13,8 @@ begin
 
 
 -- -44,0503740339662 -19,9988872392446 -43,9095219667229 -19,808911296433
- content := '{''seedRequest'':{''name'':''GERMEM:CAIXA_PASSAGEM'',''bounds'':{''coords'':{ ''double'':[''-44,0503740339662'',''-19,9988872392446'','' -43,9095219667229'',''-19,808911296433'']}},''srs'':{''number'':4326},''zoomStart'':1,''zoomStop'':3,''format'':''image\/png'',''type'':''truncate'',''threadCount'':4}}';
+-- -44,0923297472811 -19,84164913311 -44,0864548962503 -19,8348883673221
+ content := '{"seedRequest":{"name":"germem:CAIXA_PASSAGEM","bounds":{"coords":{ "double":[" -44.0923297472811","-19.84164913311"," -44.0864548962503","-19.8348883673221"]}},"srs":{"number":4326},"zoomStart":12,"zoomStop":20,"format":"image\/png","type":"truncate","threadCount":4}}';
 
   dbms_output.put_line(content);
 
