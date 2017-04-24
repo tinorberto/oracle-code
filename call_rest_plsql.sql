@@ -14,7 +14,7 @@ begin
 
 -- -44,0503740339662 -19,9988872392446 -43,9095219667229 -19,808911296433
 -- -44,0923297472811 -19,84164913311 -44,0864548962503 -19,8348883673221
- content := '{"seedRequest":{"name":"germem:CAIXA_PASSAGEM","bounds":{"coords":{ "double":[" -44.0923297472811","-19.84164913311"," -44.0864548962503","-19.8348883673221"]}},"srs":{"number":4326},"zoomStart":12,"zoomStop":20,"format":"image\/png","type":"truncate","threadCount":4}}';
+ content := '{"seedRequest":{"name":"germem:CAIXA_PASSAGEM","bounds":{"coords":{ "double":[" -44.0923297472811","-19.84164913311"," -44.0864548962503","-19.8348883673221"]}},"srs":{"number":4326},"zoomStart":1,"zoomStop":21,"format":"image\/png","type":"reseed","threadCount":4}}';
 
   dbms_output.put_line(content);
 

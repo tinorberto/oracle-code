@@ -139,37 +139,7 @@ CREATE USER EDUARDO_ALVARENGA
  -- Achar area
  select ID_CAIXA_PASSAGEM, SDO_GEOM.SDO_AREA(GEOMETRIA, 0.005, 'unit=sq_m') as area from ATIVOS_REDE.CAIXA_PASSAGEM order by area ;
  
- 
- 
- 
- 
- -- verificar se a jog esta broken
-SELECT JOB,
-       WHAT,
-       LAST_DATE,
-       LAST_SEC,
-       THIS_DATE,
-       THIS_SEC,
-       NEXT_DATE,
-       NEXT_SEC,
-       FAILURES,
-       BROKEN,
-       TOTAL_TIME
-  FROM user_jobs j
- WHERE (j.BROKEN = 'Y' OR j.FAILURES > 0);
- 
- 
- -- desbroken
-begin
-  --TEM QUE ESTAR LOGADO COM O OWNER PARA ESSAS SITUAÕES
-  DBMS_JOB.BROKEN(246, FALSE);
-end;  
 
-
-begin
-  DBMS_MVIEW.REFRESH('BHMAP_LAGOA');
-end;
- 
 
 -- For
 FOR j IN (select OWNER, TRIGGER_NAME from SYS.ALL_TRIGGERS where table_name = i_nome_tabela AND TABLE_OWNER = i_esquema_tabela) 
