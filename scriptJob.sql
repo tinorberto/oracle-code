@@ -16,11 +16,7 @@ SELECT JOB,
  WHERE (j.BROKEN = 'Y' OR j.FAILURES > 0);
  
  
- -- desbroken
-begin
-  --TEM QUE ESTAR LOGADO COM O OWNER PARA ESSAS SITUAÕES
-  DBMS_JOB.BROKEN(246, FALSE);
-end;  
+	
 
 -- refresh
 begin
@@ -52,3 +48,39 @@ END;
 BEGIN
 	SYS.DBMS_SCHEDULER.run_JOB (job_name => 'SIRGAS2000.INICIAR_CONVERSAO_JOB');
 END; 
+
+
+-- check lock job
+select 
+  J.JOB, 
+  j.WHAT, 
+  j.THIS_DATE, 
+  j.TOTAL_TIME,
+  j.LAST_DATE, 
+  s.SID,
+  s.STATUS,
+  q.SQL_TEXT,
+  l.TYPE,
+  lp.name,
+  o1.OWNER, o1.OBJECT_NAME, o1.OBJECT_TYPE,
+  o2.OWNER, o2.OBJECT_NAME, o2.OBJECT_TYPE,
+  l.BLOCK,
+  l.CTIME,
+  s.WAIT_TIME
+from 
+  dba_jobs_running r 
+  join dba_jobs j 
+  on r.JOB = j.JOB
+  join v$session s
+  on r.SID = s.SID
+  join v$sql q
+  on s.SQL_ID = q.SQL_ID
+  left outer join v$lock l
+  on s.SID = l.SID
+  left outer join dba_objects o1
+  on l.ID1 = o1.OBJECT_ID
+  left outer join dba_objects o2
+  on l.ID2 = o2.OBJECT_ID
+  left outer join v$lock_type lp
+  on l.TYPE = lp.TYPE
+order by q.SQL_TEXT,l.type;
