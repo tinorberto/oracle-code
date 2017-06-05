@@ -1,0 +1,121 @@
+--  calculate the size of arqchive each day  15/05 - 304      02/06  299  03/06 208  05 13:43 68,53
+SELECT TRUNC(COMPLETION_TIME) ARCHIVED_DATE,
+           ROUND(SUM(BLOCKS * BLOCK_SIZE) / 1024 / 1024 /1024,2) SIZE_IN_GB
+      FROM V$ARCHIVED_LOG
+     GROUP BY TRUNC(COMPLETION_TIME)
+     ORDER BY ARCHIVED_DATE desc;
+	 
+-- lists statistics on shared SQL area and contains one row per SQL string. 
+-- It provides statistics on SQL statements that are in memory, parsed, and ready for execution.     
+SELECT SQL_TEXT, DISK_READS, LAST_ACTIVE_TIME FROM V$SQLAREA  where   upper(SQL_TEXT) not like '%SELECT%' 
+AND LAST_ACTIVE_TIME  BETWEEN TO_date ('02-Jun-17', 'DD-Mon-RR') AND TO_date ('03-Jun-17', 'DD-Mon-RR')
+ORDER BY 2 desc;
+
+
+-- list 
+
+
+SELECT TO_CHAR(COMPLETION_TIME, 'DD/MM/YYYY') DAY,
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '00',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "00-01",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '01',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "01-02",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '02',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "02-03",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '03',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "03-04",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '04',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "04-05",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '05',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "05-06",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '06',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "06-07",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '07',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "07-08",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '08',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "08-09",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '09',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "09-10",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '10',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "10-11",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '11',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "11-12",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '12',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "12-13",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '13',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "13-14",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '14',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "14-15",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '15',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "15-16",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '16',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "16-17",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '17',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "17-18",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '18',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "18-19",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '19',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "19-20",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '20',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "20-21",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '21',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "21-22",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '22',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "22-23",
+       SUM(DECODE(TO_CHAR(COMPLETION_TIME, 'HH24'),
+                  '23',
+                  ROUND((blocks * block_size) / (1024 * 1024), 2),
+                  NULL)) "23-00",
+       SUM(ROUND((blocks * block_size) / (1024 * 1024), 2)) GENERATED_MB
+  FROM V$ARCHIVED_LOG
+ WHERE 
+   ARCHIVED = 'YES'
+   AND COMPLETION_TIME > = TRUNC(SYSDATE) -2  
+ GROUP BY TO_CHAR(COMPLETION_TIME, 'DD/MM/YYYY')
+ ORDER BY TO_DATE(DAY, 'DD/MM/YYYY');
