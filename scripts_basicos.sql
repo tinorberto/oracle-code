@@ -129,12 +129,6 @@ set serveroutput on;
  DBMS_OUTPUT.PUT_LINE(resultado);
 
  
---6) Criar usuarios
-CREATE USER EDUARDO_ALVARENGA
-  IDENTIFIED BY edualvarenga0220
-  DEFAULT TABLESPACE users
-  TEMPORARY TABLESPACE temp;
-
  
  -- Achar area
  select ID_CAIXA_PASSAGEM, SDO_GEOM.SDO_AREA(GEOMETRIA, 0.005, 'unit=sq_m') as area from ATIVOS_REDE.CAIXA_PASSAGEM order by area ;

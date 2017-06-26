@@ -26,3 +26,6 @@ GRANT select ON urbeL.VILA_FAVELA TO select_urber_v;
 
 --- revoke
 revoke select_urber_v from cleber
+
+
+
