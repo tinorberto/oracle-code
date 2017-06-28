@@ -6,6 +6,9 @@ begin
     -- DBMS_SNAPSHOT.REFRESH('bhmap.bhmap_obra_trecho_logradouro');
 end;
 
+-- quando a view nap 
+como sysdba
+drop summary owner.nome_da_mv
 
   
   

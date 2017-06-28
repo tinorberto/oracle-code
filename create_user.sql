@@ -29,3 +29,11 @@ revoke select_urber_v from cleber
 
 
 
+-- verificar lock da conta
+SELECT username, 
+       account_status
+  FROM dba_users
+  where username = 'EMERSON'
+  
+-- fazer o desbloqueio
+ ALTER USER EMERSON ACCOUNT UNLOCK
