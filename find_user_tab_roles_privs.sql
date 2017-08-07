@@ -47,7 +47,13 @@ where
   UPPER(t.table_name) = UPPER('&OBJETO')
   and t.owner = UPPER('&ESQUEMA');
 
---select * from dba_role_privs s where s.GRANTED_ROLE = 'PLAN_URB_ESPECIAL'
+  
+-- QUEM TEM A ROLE
+select * from dba_role_privs s where s.GRANTED_ROLE = 'PLAN_URB_ESPECIAL'
+
+-- privs de uma role
+SELECT * FROM dba_tab_privs d  where d.grantee =UPPER('croqui_tributario_v');
+
 
 /*  
 PLAN_URB_SELECT_CTM
