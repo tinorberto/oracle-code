@@ -1,48 +1,7 @@
 -------------------------------------------------------------------------------
 ----------------------------------- SCRIPTS BASICOS ---------------------
 -------------------------------------------------------------------------------
-
---GEOMETRICAS
---1) Verificar  a relacao entre objetos da mesma tabela
-select  sd.DIAMETRO_DUTO, sd.ID_DUTO, SDO_GEOM.RELATE(sd.GEOMETRIA, 'determine',sd2.GEOMETRIA , 0.005) 
-from GERMEM.DUTO sd ,  GERMEM.DUTO sd2 
-where sd2.ID_DUTO <> sd.ID_DUTO;
-
---2) Checar 
-describe germem.duto;
-
---3)Checar a distancia
-select p.id_caixa_passagem
-    from
-      germem.caixa_passagem p
-    where sdo_nn(p.geometria, l_geom_ver_ini, 'sdo_num_res=1',1) = 'TRUE'
-      and sdo_nn_distance(1) <= lc_dist_max;
-
-
---4) Checar uma relacao especifica
-SELECT CAIXA_EMENDA.ID_CAIXA_EMENDA, CAIXA_PASSAGEM.ID_CAIXA_PASSAGEM 
-    FROM GERMEM.CAIXA_PASSAGEM CAIXA_PASSAGEM,GERMEM.CAIXA_EMENDA CAIXA_EMENDA
-    WHERE CAIXA_EMENDA.TIPO_CAIXA_EMENDA='S' AND 
-      SDO_RELATE(CAIXA_PASSAGEM.GEOMETRIA, CAIXA_EMENDA.GEOMETRIA, 'mask=covers+contains') = 'TRUE'
-      AND CAIXA_EMENDA.ID_CAIXA_EMENDA = ID_CAIXA_EMENDA;
-
-	  
-	  
---5) Buffer e correcao de buffer
-l_seg_cabo_buffer := sdo_util.rectify_geometry(sdo_geom.sdo_buffer(i_geom, gc_tol_relacao, gc_tol_validacao), gc_tol_validacao);
-
-
---6) WKT para geometry 	  
-  select  SDO_GEOMETRY('LINESTRING (611354.33356591 7796728.7982483, 611356.64167487 7796730.4090499, 611366.01 7796714.23, 611363.51478069 7796711.8304337)', 82301)
-  into i_geom
-  from dual;
-
   
---7)Validar geometria
-select ID_CABO_TESTE, SDO_GEOM.VALIDATE_GEOMETRY(geometria, 0.05) from CABO_TESTE	  
-	  
-	  
-	  
 -- DML
 --1) Adicionar campo na tabela
 alter table ATIVOS_REDE.SEGMENTO_CABO add  MODELO_SEG_CABO VARCHAR2(30);  - -	"GEOMETRIA" "MDSYS"."SDO_GEOMETRY"
@@ -53,7 +12,6 @@ alter table ATIVOS_REDE.CABO drop column MODELO_CABO;
 --3) Adicionar e remover not null e default
 ALTER TABLE GERMEM.CABO MODIFY (MANUTENCAO NOT NULL);
 ALTER TABLE GERMEM.CABO MODIFY (MANUTENCAO DEFAULT 'N');
-
 
 
 --4) Adiconar coluna, restricao e chave estrangeira
@@ -126,12 +84,7 @@ set serveroutput on;
  select * from GERMEM.EXCECAO_APP order by  ID_EXCECAO_APP desc;
  
  --5) Imprimir no console 
- DBMS_OUTPUT.PUT_LINE(resultado);
-
- 
- 
- -- Achar area
- select ID_CAIXA_PASSAGEM, SDO_GEOM.SDO_AREA(GEOMETRIA, 0.005, 'unit=sq_m') as area from ATIVOS_REDE.CAIXA_PASSAGEM order by area ;
+ DBMS_OUTPUT.PUT_LINE(resultado); 
  
 
 
