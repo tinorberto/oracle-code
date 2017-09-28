@@ -81,7 +81,8 @@ SELECT_PLANEJ
 SELECT_TRIBUTARIO
 SELECT_CTM
 */
---SELECT * FROM DBA_TAB_PRIVS T WHERE T.table_name = 'LOTE_CTM'
+-- qual role tem a rabela
+SELECT * FROM DBA_TAB_PRIVS T WHERE T.table_name = 'LOTE_CTM'
 
 
 

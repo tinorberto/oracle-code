@@ -35,5 +35,24 @@ SELECT username,
   FROM dba_users
   where username = 'EMERSON'
   
+--checar lock  
+select username,
+account_status 
+ from dba_users 
+ where lock_date is not null;  
+  
+  
 -- fazer o desbloqueio
  ALTER USER EMERSON ACCOUNT UNLOCK
+ 
+ 
+ create user RICARDO
+  default tablespace SIGUR
+  temporary tablespace TEMP
+  profile DEFAULT;
+-- Grant/Revoke role privileges 
+grant conexao to RICARDO;
+grant select_mub to RICARDO;
+-- Set the user's default roles 
+alter user RICARDO
+  default role conexao;
