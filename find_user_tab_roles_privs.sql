@@ -84,8 +84,9 @@ SELECT_CTM
 -- qual role tem a rabela
 SELECT * FROM DBA_TAB_PRIVS T WHERE T.table_name = 'LOTE_CTM'
 
+--
 
-
+grant select on idedbstagingarea.hotspot_prodabel  to eventos WITH GRANT OPTION ;
 
 
 
