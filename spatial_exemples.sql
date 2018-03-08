@@ -60,5 +60,9 @@ select ID_CABO_TESTE, SDO_GEOM.VALIDATE_GEOMETRY(geometria, 0.05) from CABO_TEST
 	  
  -- Achar area
  select ID_CAIXA_PASSAGEM, SDO_GEOM.SDO_AREA(GEOMETRIA, 0.005, 'unit=sq_m') as area from ATIVOS_REDE.CAIXA_PASSAGEM order by area ;	
+ 
+ 
+ -- Distancia entre duas geometrias
+ SDO_GEOM.SDO_DISTANCE(loc.geometria,  pp.geometria, 0.005, 'unit=M') distancia
 	
 		

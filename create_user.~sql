@@ -44,7 +44,9 @@ account_status
  from dba_users 
  where lock_date is not null
  order by username;
+   
  
+  
   
 -- fazer o desbloqueio
  ALTER USER EMERSON ACCOUNT UNLOCK

@@ -88,9 +88,14 @@ SELECT * FROM DBA_TAB_PRIVS T WHERE T.table_name = 'LOTE_CTM'
 
 grant select on idedbstagingarea.hotspot_prodabel  to eventos WITH GRANT OPTION ;
 
+--find objets
 
+SELECT * FROM all_objects aj where aj.OWNER = 'BHMAP'
+ AND AJ.OBJECT_TYPE IN ('TABLE', 'MATERIALIZED VIEW')  AND AJ.OBJECT_NAME NOT LIKE '%$%'
 
-
+-- tipos disponiveis 
+SELECT  aj.OBJECT_TYPE FROM all_objects aj where aj.OWNER = 'BHMAP'
+group by aj.OBJECT_TYPE
 
 
 

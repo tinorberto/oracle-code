@@ -1,0 +1,18 @@
+
+-- select all jobs broken  
+ select * from user_jobs where broken='Y';
+  
+-- run job  
+  begin
+    dbms_job.run(807);
+   end;
+   
+-- detail of execution  of jobs  
+select * from ALL_SCHEDULER_JOB_RUN_DETAILS;
+   
+-- script to run job  
+select 'begin  dbms_job.run('||JOB||');  end; -- '|| WHAT
+   from USER_jobs
+  where broken='Y' AND SCHEMA_USER = 'BHMAP'
+  and what like '%S2000%'
+  ORDER BY LAST_DATE DESC;
