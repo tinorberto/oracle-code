@@ -48,7 +48,7 @@ SELECT CAIXA_EMENDA.ID_CAIXA_EMENDA, CAIXA_PASSAGEM.ID_CAIXA_PASSAGEM
 l_seg_cabo_buffer := sdo_util.rectify_geometry(sdo_geom.sdo_buffer(i_geom, gc_tol_relacao, gc_tol_validacao), gc_tol_validacao);
 
 
---6) WKT para geometry 	  
+--6)  para geometry 	  
   select  SDO_GEOMETRY('LINESTRING (611354.33356591 7796728.7982483, 611356.64167487 7796730.4090499, 611366.01 7796714.23, 611363.51478069 7796711.8304337)', 82301)
   into i_geom
   from dual;
@@ -59,7 +59,7 @@ select ID_CABO_TESTE, SDO_GEOM.VALIDATE_GEOMETRY(geometria, 0.05) from CABO_TEST
 	  
 	  
  -- Achar area
- select ID_CAIXA_PASSAGEM, SDO_GEOM.SDO_AREA(GEOMETRIA, 0.005, 'unit=sq_m') as area from ATIVOS_REDE.CAIXA_PASSAGEM order by area ;	
+ select ID_CAIXA_PASSAGEM, 	 from ATIVOS_REDE.CAIXA_PASSAGEM order by area ;	
  
  
  -- Distancia entre duas geometrias
