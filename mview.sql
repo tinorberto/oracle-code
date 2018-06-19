@@ -43,5 +43,94 @@ select * from all_mviews  e where e.MVIEW_NAME like '%BAIRRO_OFICIAL%'
   FROM all_mviews
  WHERE owner = 'BHMAP'
    AND mview_name  like '%BAIRRO_OFICIAL%'
+   
+   
+ --alter materialized view cp.lote_cp refresh complete on demand next trunc(sysdate) + 1 + 1 / 24 / 60;
+
+select 
+  m.*, 
+  d.LAST_REFRESH_TYPE,
+  r.interval,
+  r.NEXT_DATE,
+  r.BROKEN,
+  j.FAILURES,
+  j.WHAT,
+  j.THIS_DATE
+from 
+  all_mview_refresh_times m
+  join all_mviews d
+  on m.OWNER = d.OWNER and m.NAME = d.MVIEW_NAME
+  left outer join dba_refresh r
+  on (d.MVIEW_NAME = r.RNAME and d.OWNER = r.ROWNER)
+  left outer join dba_jobs j
+  on r.JOB = j.JOB
+-- where m.LAST_REFRESH > trunc(sysdate) - 1
+order by m.OWNER;
+
+SELECT LOG_USER,
+       JOB,
+       WHAT,
+       LAST_DATE,
+       LAST_SEC,
+       THIS_DATE,
+       THIS_SEC,
+       NEXT_DATE,
+       NEXT_SEC,
+       FAILURES,
+       BROKEN,
+       TOTAL_TIME
+  FROM DBA_JOBS j
+ WHERE (j.BROKEN != 'Y' AND j.FAILURES > 0);
+ 
+select
+  j.JOB,
+  J.WHAT,
+  r.SID, 
+  q.SQL_TEXT
+from 
+  dba_jobs_running r 
+  join dba_jobs j on r.JOB = j.JOB
+  join v$session s on r.sid = s.sid
+  join v$sql q on s.SQL_ID = q.SQL_ID
+  ;
+
+ 
+select 
+  SJ.owner,
+  SJ.job_name,
+  SJ.last_start_date,
+  SJ.LAST_RUN_DURATION,
+  SJ.JOB_ACTION
+from dba_scheduler_jobs sj
+where sj.owner not in ('SYS','ORACLE_OCM','EXFSYS');
+/** 410 siurbe.projeto
+begin
+  DBMS_JOB.RUN(410);
+end;
+/
+begin
+  --TEM QUE ESTAR LOGADO COM O OWNER PARA ESSAS SITUAÕES
+  DBMS_JOB.BROKEN(243, FALSE);
+end;  
+
+alter materialized view meio_ambiente.area_preservacao_permanente refresh complete on demand start with sysdate + 1/24/60 next sysdate + 1/24/60  --trunc(sysdate) + 1 + 1 / 24 / 60;
+
+alter table SIURBE.INDICE_SOLICITACAO disable constraint FK_INDICE_SOLICITACAO_LOTE_CP;
+
+begin
+  DBMS_MVIEW.REFRESH('BHMAP_LOTE_CTM');
+end;
+
+alter table SIURBE.INDICE_SOLICITACAO enable constraint FK_INDICE_SOLICITACAO_LOTE_CP;
+
+
+-- Enable/Disable primary, unique and foreign key constraints 
+alter table SIURBE.INDICE_SOLICITACAO disable constraint FK_INDICE_SOLICITACAO_LOTE_CP;
+
+alter materialized view cp.lote_cp refresh complete on demand next trunc(sysdate) + 1 + 1 / 24 / 60;
+
+alter index dipc.diretriz_protecao_sx rebuild;
+
+select * from user_jobs_running  
   
   

@@ -64,5 +64,36 @@ select ID_CABO_TESTE, SDO_GEOM.VALIDATE_GEOMETRY(geometria, 0.05) from CABO_TEST
  
  -- Distancia entre duas geometrias
  SDO_GEOM.SDO_DISTANCE(loc.geometria,  pp.geometria, 0.005, 'unit=M') distancia
-	
+
+
+--
+DBMS_OUTPUT.PUT_LINE( to_char( SDO_UTIL.TO_WKTGEOMETRY(l_geom_seg)));
+ 
+-- Loop nos vertices
+ 
+  FOR j IN ( 
+    select *
+    FROM germem.segmento_cabo  sca,  
+    TABLE(SDO_UTIL.GETVERTICES(sca.geometria)) t   
+    where sca.id_segmento_cabo = i_id_seg_cabo)  
+                
+  LOOP
+  
+
+
+-- criar linhas com todos os pontos dados os vertices de uma geometria
+with points as(     
+select  t.x, t.y , t.id
+FROM germem.segmento_cabo  sca,  
+TABLE(SDO_UTIL.GETVERTICES(sca.geometria)) t 
+where sca.id_segmento_cabo = 443)
+select  Mdsys.Sdo_geometry( 2002, 82301, null,
+     MDSYS.SDO_ELEM_INFO_ARRAY(1, 2, 1),
+      CAST(MULTISET(SELECT b.COLUMN_VALUE
+            FROM points a,
+            TABLE(mdsys.sdo_ordinate_array(a.x,a.y))b
+            where a.id > 1
+            )
+            AS mdsys.sdo_ordinate_array)) AS linestring
+ from dual;
 		
