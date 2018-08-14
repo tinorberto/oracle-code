@@ -1,34 +1,35 @@
+
+-- criacao de materialized view log on
 declare
    type array_t is varray(4) of varchar2(200);
+   -- array com ower tabela
    array array_t := array_t('CADASTRO_TECNICO', 'DIVISA_LOTE', 'PLANEJ','SETOR_CENSITARIO_2010');
    result varchar2(2000); 
    
 begin 
    for i in 1..array.count loop
-       -- se for par pular para o proximi    
+       -- se for par pular para o proxima execucao    
        IF mod (i, 2) = 0 then
         continue; 
        end if;
-       --dbms_output.put_line((i));
        -- mlog 
        begin
-         select  'grant select on '||log_owner||'.'||log_table ||' to idedbstagingarea;'into result
-                 from all_mview_logs where master =  array(i+1) and LOG_OWNER =  array(i);
-         DBMS_OUTPUT.PUT_LINE(result);              
+         select  'grant select on '||log_owner||'.'||log_table ||' to idedbstagingarea;' into result
+                from all_mview_logs where master =  array(i+1) and LOG_OWNER =  array(i);
+				DBMS_OUTPUT.PUT_LINE(result);              
          exception
          when no_data_found  then  DBMS_OUTPUT.PUT_LINE('Nao encontrou '||array(i+1) ); 
-          DBMS_OUTPUT.PUT_LINE('create materialized view log on '|| array(i)||'.'|| array(i+1)||' with sequence,primary key,  rowid  including new values; ');
-       
+			DBMS_OUTPUT.PUT_LINE('create materialized view log on '|| array(i)||'.'|| array(i+1)||' with sequence,primary key,  rowid  including new values; ');
+			DBMS_OUTPUT.PUT_LINE('grant select on '|| array(i)||'.MLOG$_'|| array(i+1)||' to idedbstagingarea; ');
        end; 
         
          -- acesso ao dados
        begin
          select  'grant select on '||owner||'.'||object_name ||' to idedbstagingarea;' into result
                  from all_objects  where object_name =  array(i+1) and OWNER =  array(i)  and object_type in ('VIEW', 'TABLE' , 'MATERIALIZED VIEW');
-         DBMS_OUTPUT.PUT_LINE(result);              
+			DBMS_OUTPUT.PUT_LINE(result);              
          exception
-         when no_data_found  then  DBMS_OUTPUT.PUT_LINE('Nao encontrou a tabela  '||array(i+1) ); 
-    
+			when no_data_found  then  DBMS_OUTPUT.PUT_LINE('Nao encontrou a tabela '||array(i+1) ); 
          end;
   end loop; 
  
@@ -37,6 +38,7 @@ end;
 
 
 
+-- criacao de mview
 declare 
    result varchar2(500);
    mviewname varchar2(500);
@@ -50,7 +52,7 @@ begin
   owner_v :='IDEDBSTAGINGAREA';
   tablename_v := 'MV036';
   
-  
+-- buscar a ultima mv criada  
 select MVIEW_NAME into result   from (select   (MVIEW_NAME) from all_mviews al  where al.OWNER = upper('idedbstagingarea') and al.MVIEW_NAME like 'MV%'  
 order by MVIEW_NAME desc )
 where rownum = 1;
@@ -108,5 +110,3 @@ DBMS_OUTPUT.PUT_LINE('grant select on IDEDBSTAGINGAREA.MV0'||(mviewnumber+1)|| '
 
 
 end;
-
-
