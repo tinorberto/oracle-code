@@ -62,6 +62,10 @@ grant select_mub to RICARDO;
 alter user RICARDO
   default role conexao;
 
+
+grant connect, resource to IDEPBH_CARGA;
+
+
   
 
 -- Exemplo de criacao  de usuario  

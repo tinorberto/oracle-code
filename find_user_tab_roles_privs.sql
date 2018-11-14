@@ -47,6 +47,9 @@ where
   UPPER(t.table_name) = UPPER('&OBJETO')
   and t.owner = UPPER('&ESQUEMA');
 
+
+-- usuario 
+select * from session_privs;
   
 -- QUEM TEM A ROLE
 select * from dba_role_privs s where s.GRANTED_ROLE = 'PLAN_URB_ESPECIAL'

@@ -38,6 +38,7 @@ end;
 
 
 
+
 -- criacao de mview
 declare 
    result varchar2(500);
@@ -48,9 +49,10 @@ declare
    owner_v varchar2(500);
    tablecolluns varchar2(3999);
    mvlog varchar(4000);
+   pk_names varchar2 (4000);
 begin 
-  owner_v :='IDEDBSTAGINGAREA';
-  tablename_v := 'MV036';
+  owner_v :='EDUCACAO';
+  tablename_v := 'UMEI';
   
 -- buscar a ultima mv criada  
 select MVIEW_NAME into result   from (select   (MVIEW_NAME) from all_mviews al  where al.OWNER = upper('idedbstagingarea') and al.MVIEW_NAME like 'MV%'  
@@ -90,6 +92,7 @@ mviewscript := 'create materialized view idedbstagingarea.MV0'||(mviewnumber+1)|
 
 DBMS_OUTPUT.PUT_LINE(mviewscript);
 
+
 mvlog := 'create materialized view log on IDEDBSTAGINGAREA.MV0'||(mviewnumber+1)||chr(13)||chr(10)||  
 'with sequence,primary key,  rowid  including new values; ';
 -- CRIACAO DA MVIEW 
@@ -97,9 +100,20 @@ DBMS_OUTPUT.PUT_LINE('');
 DBMS_OUTPUT.PUT_LINE(mvlog);
 
 
+-- gerar o nome das pk
+SELECT   LISTAGG(cols.COLUMN_NAME, ', ') WITHIN GROUP (ORDER BY cols.COLUMN_NAME)  into pk_names
+FROM all_constraints cons, all_cons_columns cols
+WHERE cols.table_name = tablename_v
+and cols.OWNER = owner_v
+AND cons.constraint_type = 'P'
+AND cons.constraint_name = cols.constraint_name
+AND cons.owner = cols.owner
+ORDER BY cols.table_name, cols.position;
+
+
 --PK
 DBMS_OUTPUT.PUT_LINE('');
-DBMS_OUTPUT.PUT_LINE('alter table IDEDBSTAGINGAREA.MV0'||(mviewnumber+1)|| 'add constraint PK_MV0'||(mviewnumber+1)|| ' primary key ();');
+DBMS_OUTPUT.PUT_LINE('alter table IDEDBSTAGINGAREA.MV0'||(mviewnumber+1)|| ' add constraint PK_MV0'||(mviewnumber+1)|| ' primary key ('||pk_names||');');
 
 
 DBMS_OUTPUT.PUT_LINE('');
