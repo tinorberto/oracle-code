@@ -14,3 +14,11 @@ WHERE
   D.OWNER IN ('GEOCODER','DIPC','CADASTRO_TECNICO','SIURBE','SISTEMA_VARIO','PLANEJ','CP','PARAM_URB','IMAGEM_BH','EDIFICACAO','AREA_RISCO','MEIO_AMBIENTE')
   AND D.OWNER = R.ROWNER
   AND D.MVIEW_NAME = R.RNAME;
+  
+  
+  
+ -- alterar as hora de execucao
+ALTER MATERIALIZED VIEW idepbh.unid_receb_peqn_volume REFRESH next trunc(sysdate) + interval '23' hour; 
+  
+
+  

@@ -47,6 +47,15 @@ where
   UPPER(t.table_name) = UPPER('&OBJETO')
   and t.owner = UPPER('&ESQUEMA');
 
+--
+select Grantee,'Granted Through Role' as Grant_Type, role, table_name
+from role_tab_privs rtp, dba_role_privs drp
+where rtp.role = drp.granted_role
+and table_name = '&TABLENAME' 
+union
+select Grantee,'Direct Grant' as Grant_type, null as role, table_name
+from dba_tab_privs
+where table_name = '&TABLENAME' ;
 
 -- usuario 
 select * from session_privs;
@@ -58,32 +67,6 @@ select * from dba_role_privs s where s.GRANTED_ROLE = 'PLAN_URB_ESPECIAL'
 SELECT * FROM dba_tab_privs d  where d.grantee =UPPER('croqui_tributario_v');
 
 
-/*  
-PLAN_URB_SELECT_CTM
-PLAN_URB_SELECT_PLANEJ
-PLAN_URB_GERAL
-PLAN_URB_SELECT_SIST_VIARIO
-PLAN_URB_SELECT_TRIBUTARIO
-SELECT_PARAM_URB
-PLAN_URB_SELECT_SMARU
-PLAN_URB_GERAL
-SELECT_DIPC
-SELECT_HIST_CADASTRO_TECNICO
-UPDATE_PARAM_URB_SMAPU
-SELECT_SMAPU
-UPDATE_SMAPU
-EXECUTE_DIPC
-SELECT_SMARU
-SELECT_INFRA_ESTRUTURA
-SELECT_SANEAMENTO_BASICO
-SELECT_TRANSPORTE
-SELECT_MUB
-SELECT_COMPAT_CP
-SELECT_CP
-SELECT_PLANEJ
-SELECT_TRIBUTARIO
-SELECT_CTM
-*/
 -- qual role tem a rabela
 SELECT * FROM DBA_TAB_PRIVS T WHERE T.table_name = 'LOTE_CTM'
 
