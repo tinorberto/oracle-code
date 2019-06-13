@@ -24,6 +24,39 @@ where
   or r.grantee = upper('&user') ORDER BY   t.owner
   ,t.table_name;
 
+
+
+-- Selecionar por onwer
+-- 
+select
+  --falta incluir as permissões por system role 
+  DISTINCT
+  case t.grantee 
+    when r.granted_role then 
+      r.grantee 
+    else 
+      t.grantee 
+  end user_name
+  ,u.account_status
+  ,r.granted_role
+  ,t.owner
+  ,t.table_name
+  ,t.privilege
+from 
+  dba_tab_privs t
+  left outer join dba_role_privs r
+  on t.grantee = r.granted_role
+  left outer join dba_users u
+  on (t.grantee = u.username or r.GRANTEE = u.username)
+where
+  (t.grantee = upper('&user')
+  or r.grantee = upper('&user')) and  
+  t.owner = '&owner'
+  ORDER BY   t.owner,t.table_name;
+
+
+
+
 select 
   DISTINCT
   case t.grantee 
