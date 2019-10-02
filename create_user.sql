@@ -63,10 +63,16 @@ alter user RICARDO
   default role conexao;
 
 
+-- alter password
+ALTER USER user_name IDENTIFIED BY new_password;
+
 grant connect, resource to IDEPBH_CARGA;
 
 
-  
+-- defeault  role
+alter user ADRIANE_CUNHA default role UPDATE_EQUIP_CULTURAL;
+
+
 
 -- Exemplo de criacao  de usuario  
   CREATE USER GEONETWORK

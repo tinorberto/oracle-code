@@ -96,4 +96,21 @@ select  Mdsys.Sdo_geometry( 2002, 82301, null,
             )
             AS mdsys.sdo_ordinate_array)) AS linestring
  from dual;
-		
+	
+
+
+-- criar geometria de um sdo_geometria
+insert into tributario.edif_croqui_imovel_iptu ( ID_CROQUI_IMOVEL_IPTU, 
+NUM_PAVIMENTO, COD_EDIFICACAO, INDICE_CADASTRAL, geometria)
+values ( 96324, 1, null, '141007 024 0012',  
+SDO_GEOMETRY('MULTIPOLYGON (((613504.47438923 7795936.88152877, 613512.19155349 7795939.11838797, 613513.38454507 7795935.18524387, 613505.33185192 7795932.50101282, 613504.47438923 7795936.88152877)))', 31983) );
+
+
+
+-- verificar com 
+SDO_RELATE(tr.GEOMETRIA, r.GEOMETRIA, 'mask=inside') = 'TRUE'
+
+
+SDO_GEOM.RELATE(c.shape, 'determine', c_b.shape, 0.005)
+
+	
