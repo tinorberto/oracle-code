@@ -3,6 +3,9 @@ CREATE USER CLEBER
   IDENTIFIED BY cleber0956
   DEFAULT TABLESPACE SIGUR
   TEMPORARY TABLESPACE temp;
+
+-- permissao para cincetar
+ GRANT CONNECT TO teste_PACKAGE;
   
 --- grant   
 grant select_lp_pl_bh to CLEBER;

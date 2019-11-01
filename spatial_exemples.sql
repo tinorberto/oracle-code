@@ -113,4 +113,12 @@ SDO_RELATE(tr.GEOMETRIA, r.GEOMETRIA, 'mask=inside') = 'TRUE'
 
 SDO_GEOM.RELATE(c.shape, 'determine', c_b.shape, 0.005)
 
+-- criar geometria 
+
+select * 
+from edificacao.edificacao
+-- where  SDO_RELATE(SDO_UTIL.FROM_WKTGEOMETRY('POINT (605286.906297396 7794562.26868448)'), edificacao.GEOMETRIA, 'mask=inside') = 'TRUE'
+where  SDO_GEOM.RELATE(SDO_GEOMETRY(('POINT(605286.906297396 7794562.26868448)'), 31983),'determine',edificacao.GEOMETRIA, 0.05 ) = 'inside';
+ 
+
 	

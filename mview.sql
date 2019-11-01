@@ -35,6 +35,8 @@ where
   r.BROKEN = 'N'
 ORDER BY R.NEXT_DATE, R.ROWNER;
 
+
+-- buscar todas as mviews
 select * from all_mviews  e where e.MVIEW_NAME like '%BAIRRO_OFICIAL%'
 
 
