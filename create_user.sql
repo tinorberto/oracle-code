@@ -48,6 +48,11 @@ account_status
  where lock_date is not null
  order by username;
  
+
+-- Tipos de lock
+locked - A contra foi bloqueada  por comando
+LOCKED(TIMED)  -  A contra foi bloqueada por tentativas
+EXPIRED & LOCKED -  A contra foi expirada
   
 -- fazer o desbloqueio
  ALTER USER EMERSON ACCOUNT UNLOCK

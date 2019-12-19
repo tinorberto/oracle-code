@@ -1,3 +1,5 @@
+
+-- Quando tentei executar ocorreu o erro ORA-29273: falha na solicitação HTTP
 set serveroutput on;
 declare
 

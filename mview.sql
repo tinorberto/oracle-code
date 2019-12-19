@@ -1,3 +1,6 @@
+
+-- Alterar a periocdade de atualizacao
+ALTER MATERIALIZED VIEW IDEPBH.ENDERECO  NEXT sysdate + 15/24/60;
  
 -- Forcar o refresh  
 begin
